@@ -1,6 +1,7 @@
 use nannou::prelude::*;
+use rand::Rng;
 
-const WINDOW_SIZE: u32 = 1080;
+const WINDOW_SIZE: u32 = 512;
 
 // for types that need to be drawn to the screen
 trait Nannou {
@@ -16,10 +17,18 @@ struct Pos {
 }
 
 // direction in polar coordinates
-#[derive(Default)]
 struct Direction {
     speed: f32,
     degrees: f32,
+}
+
+impl Default for Direction {
+    fn default() -> Self {
+        Self {
+            speed: 0.5,
+            degrees: 0.0,
+        }
+    }
 }
 
 // dimensions of a rectangle, defaults to 25px
@@ -51,6 +60,44 @@ impl Ant {
             texture,
         }
     }
+
+    fn fix_collision(&mut self) {
+        let mut rng = rand::thread_rng();
+
+        let lower_bound = -(WINDOW_SIZE as f32 / 2.0);
+        let upper_bound = WINDOW_SIZE as f32 / 2.0;
+
+        if self.pos.x < lower_bound {
+            self.pos.x = lower_bound;
+            self.dir.degrees = rng.gen_range(0.0..=180.0);
+        } else if self.pos.y < lower_bound {
+            self.pos.y = lower_bound;
+            self.dir.degrees = rng.gen_range(-90.0..=90.0);
+        } else if self.pos.x > upper_bound {
+            self.pos.x = upper_bound;
+            self.dir.degrees = rng.gen_range(-180.0..=0.0);
+        } else if self.pos.y > upper_bound {
+            self.pos.y = upper_bound;
+            self.dir.degrees = rng.gen_range(90.0..=270.0);
+        }
+    }
+
+    fn wander(&mut self) {
+        let mut rng = rand::thread_rng();
+
+        let d_angle = rng.gen_range(-5.0..=5.0);
+        self.dir.degrees += d_angle;
+
+        // change the x position by the x component of direction
+        let dx = deg_to_rad(self.dir.degrees).cos() * self.dir.speed;
+        self.pos.x += dx;
+
+        // change the y position by the y component of direction
+        let dy = deg_to_rad(self.dir.degrees).sin() * self.dir.speed;
+        self.pos.y += dy;
+
+        self.fix_collision();
+    }
 }
 
 impl Nannou for Ant {
@@ -60,16 +107,13 @@ impl Nannou for Ant {
 
         draw.texture(&self.texture)
             .x_y(self.pos.x, self.pos.y)
-            .w_h(self.size.w as f32, self.size.h as f32);
+            .w_h(self.size.w as f32, self.size.h as f32)
+            .rotate(deg_to_rad(self.dir.degrees) + 3.0 * PI / 2.0);
     }
 
     // updates the Ant
     fn update(&mut self) {
-        // change the x position by the x component of direction
-        self.pos.x += deg_to_rad(self.dir.degrees).cos() * self.dir.speed;
-
-        // change the y position by the y component of direction
-        self.pos.y += deg_to_rad(self.dir.degrees).sin() * self.dir.speed;
+        self.wander();
     }
 }
 

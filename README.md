@@ -1,6 +1,6 @@
 # Ant Optimization
 
-A simulation of ants: the ants try to find food and bring it back to their home. As they explore and move around they leave behind pheromone trails that indicate the direction to food or home. Over time, through random variation in the ants movement, they optimize their path to the food source.
+This project simulates ant behavior, focusing on food foraging and navigation. Ants leave pheromone trails as they explore, serving as directional cues to food or their nest. Through random movement patterns, ants iteratively optimize their pathfinding to the food source over time.
 
 ## Installation
 

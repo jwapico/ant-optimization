@@ -1,8 +1,9 @@
+use nannou::prelude::*;
+
 mod ant;
 mod model;
 
 use crate::model::Model;
-use nannou::prelude::*;
 
 pub const WINDOW_SIZE: u32 = 512;
 

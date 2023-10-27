@@ -1,6 +1,7 @@
+use nannou::prelude::*;
+
 use crate::ant::Ant;
 use crate::Nannou;
-use nannou::prelude::*;
 
 // describes the state of the app
 pub struct Model {

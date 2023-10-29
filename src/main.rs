@@ -10,7 +10,7 @@ pub const WINDOW_SIZE: u32 = 512;
 // for types that need to be drawn to the screen
 trait Nannou {
     fn display(&self, app: &App, _model: &Model);
-    fn update(&mut self);
+    fn update(&mut self, mouse_pos: Vec2);
 }
 
 // make and run the nannou app with the model and update functions
@@ -36,7 +36,8 @@ fn model(app: &App) -> Model {
 
 // this is run on timed updates, 60 times per second
 fn update(_app: &App, model: &mut Model, _update: Update) {
-    model.update()
+    let mouse_pos = Vec2::new(_app.mouse.x, _app.mouse.y);
+    model.update(mouse_pos)
 }
 
 // draw to the screen

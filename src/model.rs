@@ -25,7 +25,7 @@ impl Nannou for Model {
         self.ant.display(app, _model)
     }
 
-    fn update(&mut self) {
-        self.ant.update();
+    fn update(&mut self, mouse_pos: Vec2) {
+        self.ant.update(mouse_pos);
     }
 }

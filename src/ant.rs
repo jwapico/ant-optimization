@@ -1,4 +1,3 @@
-use libm::*;
 use nannou::prelude::*;
 
 use crate::model::Model;
@@ -33,15 +32,24 @@ impl Ant {
 
     // if the ant goes out of bounds, change its direction to a valid random angle
     fn fix_wall_collision(&mut self) {
-        // let lower_bound = -(WINDOW_SIZE as f32 / 2.0);
-        // let upper_bound = WINDOW_SIZE as f32 / 2.0;
+        let lower_bound = -(WINDOW_SIZE as f32 / 2.0);
+        let upper_bound = WINDOW_SIZE as f32 / 2.0;
 
         // TODO:
     }
 
-    fn seek(&mut self, pos: Vec2) {
-        self.desired_vel = pos - self.pos;
-        self.desired_vel = self.desired_vel.normalize() * self.max_vel;
+    fn seek(&mut self, target: Vec2) {
+        self.desired_vel = target - self.pos;
+
+        // If the ant enters a specefied radius, slow it down so it stops at its target
+        let slowing_radius = 25.0;
+        let distance = self.desired_vel.length();
+        if distance < slowing_radius {
+            self.desired_vel =
+                self.desired_vel.normalize() * self.max_vel * (distance / slowing_radius);
+        } else {
+            self.desired_vel = self.desired_vel.normalize() * self.max_vel;
+        }
 
         // steering is desired velocity - current velocity scaled by a force and a mass
         let mut steering = self.desired_vel - self.current_vel;

@@ -5,7 +5,7 @@ mod model;
 
 use crate::model::Model;
 
-const WINDOW_SIZE: u32 = 1024;
+pub const WINDOW_SIZE: u32 = 1024;
 
 // for types that need to be drawn to the screen
 trait Nannou {

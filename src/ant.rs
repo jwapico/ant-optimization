@@ -7,15 +7,15 @@ use crate::WINDOW_SIZE;
 
 // an ant is made up of a position, direction, size, and texture (ant png).
 pub struct Ant {
-    size: Vec2,
-    pos: Vec2,
-    current_vel: Vec2,
+    pub size: Vec2,
+    pub pos: Vec2,
+    pub current_vel: Vec2,
     desired_vel: Vec2,
     mass: f32,
     max_vel: f32,
     max_force: f32,
     wander_angle: f32,
-    texture: wgpu::Texture,
+    pub texture: wgpu::Texture,
 }
 
 impl Ant {
@@ -62,7 +62,7 @@ impl Ant {
 
     // makes the ant randomly wander
     fn wander(&mut self) {
-        const WANDER_DISTANCE: f32 = 30.0; // disatnce from ant to wandering circle center
+        const WANDER_DISTANCE: f32 = 30.0; // distance from ant to wandering circle center
         const WANDER_RADIUS: f32 = 15.0; // radius of wandering circle
         const ANGLE_CHANGE: f32 = PI / 16.0; // max change in wander angle
 
@@ -103,6 +103,7 @@ impl Ant {
     fn validate_target(&self, target: Vec2) -> Vec2 {
         let mut new_target = target;
 
+        // TODO: use window size of app, rather than hardcoded value
         let lower_bound = (-(WINDOW_SIZE as i32) / 2) as f32;
         let upper_bound = (WINDOW_SIZE as i32 / 2) as f32;
 
@@ -116,13 +117,10 @@ impl Ant {
 
         new_target
     }
-
-    // TODO: Spawn a bunch of ants
 }
 impl Nannou for Ant {
     // draws the Ant to the screen
-    fn display(&self, app: &App, _model: &Model) {
-        let draw = app.draw();
+    fn display(&self, _model: &Model, draw: &nannou::Draw) {
         let angle = self.current_vel.y.atan2(self.current_vel.x);
 
         draw.texture(&self.texture)
@@ -132,8 +130,7 @@ impl Nannou for Ant {
     }
 
     // updates the Ant
-    fn update(&mut self, mouse_pos: Vec2) {
-        // self.seek(mouse_pos, 35.0);
+    fn update(&mut self) {
         self.wander();
     }
 }

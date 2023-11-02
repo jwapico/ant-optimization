@@ -6,11 +6,12 @@ mod model;
 use crate::model::Model;
 
 pub const WINDOW_SIZE: u32 = 1024;
+const NUM_ANTS: u32 = 200;
 
 // for types that need to be drawn to the screen
 trait Nannou {
-    fn display(&self, app: &App, _model: &Model);
-    fn update(&mut self, mouse_pos: Vec2);
+    fn display(&self, _model: &Model, draw: &nannou::Draw);
+    fn update(&mut self);
 }
 
 // make and run the nannou app with the model and update functions
@@ -31,13 +32,12 @@ fn model(app: &App) -> Model {
     let img_path = assets.join("red_ant.png");
     let ant_texture = wgpu::Texture::from_path(app, img_path).unwrap();
 
-    Model::new(_window, ant_texture)
+    Model::new(_window, ant_texture, NUM_ANTS)
 }
 
 // this is run on timed updates, 60 times per second
 fn update(_app: &App, model: &mut Model, _update: Update) {
-    let mouse_pos = Vec2::new(_app.mouse.x, _app.mouse.y);
-    model.update(mouse_pos)
+    model.update()
 }
 
 // draw to the screen
@@ -47,7 +47,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
     frame.clear(background_color);
 
-    model.display(app, model);
+    model.display(model, &draw);
 
     draw.to_frame(app, &frame).unwrap();
 }

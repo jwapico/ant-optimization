@@ -7,15 +7,15 @@ use crate::WINDOW_SIZE;
 
 // an ant is made up of a position, direction, size, and texture (ant png).
 pub struct Ant {
-    pub size: Vec2,
-    pub pos: Vec2,
-    pub current_vel: Vec2,
+    size: Vec2,
+    pos: Vec2,
+    current_vel: Vec2,
     desired_vel: Vec2,
     mass: f32,
     max_vel: f32,
     max_force: f32,
     wander_angle: f32,
-    pub texture: wgpu::Texture,
+    texture: wgpu::Texture,
 }
 
 impl Ant {

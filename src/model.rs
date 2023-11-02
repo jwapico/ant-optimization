@@ -6,7 +6,7 @@ use crate::Nannou;
 // describes the state of the app, a window and a vector of ants
 pub struct Model {
     _window: window::Id,
-    pub ants: Vec<Ant>,
+    ants: Vec<Ant>,
 }
 
 // add a way to make a new Model

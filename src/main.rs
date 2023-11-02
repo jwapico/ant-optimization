@@ -1,17 +1,16 @@
+use crate::model::Model;
 use nannou::prelude::*;
 
 mod ant;
 mod model;
-
-use crate::model::Model;
 
 pub const WINDOW_SIZE: u32 = 1024;
 const NUM_ANTS: u32 = 200;
 
 // for types that need to be drawn to the screen
 trait Nannou {
-    fn display(&self, _model: &Model, draw: &nannou::Draw);
-    fn update(&mut self);
+    fn display(&self, draw: &nannou::Draw);
+    fn update(&mut self, window_dimensions: Vec2);
 }
 
 // make and run the nannou app with the model and update functions
@@ -19,7 +18,7 @@ fn main() {
     nannou::app(model).update(update).run();
 }
 
-// make a new model. this is run once when the nannou app is started
+// make a new model. this is ran once when the nannou app is started
 fn model(app: &App) -> Model {
     let _window = app
         .new_window()
@@ -35,19 +34,21 @@ fn model(app: &App) -> Model {
     Model::new(_window, ant_texture, NUM_ANTS)
 }
 
-// this is run on timed updates, 60 times per second
+// required function for the nannou app; is run 60 times per second
 fn update(_app: &App, model: &mut Model, _update: Update) {
-    model.update()
+    let window_dimensions = _app.window_rect().wh();
+
+    model.update(window_dimensions)
 }
 
-// draw to the screen
+// required function for the nannou app; draws to the screen
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
     let background_color = rgb(34.0 / 255.0, 40.0 / 255.0, 49.0 / 255.0);
 
     frame.clear(background_color);
 
-    model.display(model, &draw);
+    model.display(&draw);
 
     draw.to_frame(app, &frame).unwrap();
 }

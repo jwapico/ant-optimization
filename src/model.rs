@@ -22,11 +22,13 @@ impl Model {
 
 // call display and update on all the ants
 impl Nannou for Model {
-    fn display(&self, _model: &Model, draw: &nannou::Draw) {
-        self.ants.iter().for_each(|ant| ant.display(_model, draw));
+    fn display(&self, draw: &nannou::Draw) {
+        self.ants.iter().for_each(|ant| ant.display(draw));
     }
 
-    fn update(&mut self) {
-        self.ants.iter_mut().for_each(|ant| ant.update());
+    fn update(&mut self, window_dimensions: Vec2) {
+        self.ants
+            .iter_mut()
+            .for_each(|ant| ant.update(window_dimensions));
     }
 }

@@ -5,18 +5,17 @@ use crate::Nannou;
 
 // describes the state of the app, a window and a vector of ants
 pub struct Model {
-    _window: window::Id,
     ants: Vec<Ant>,
 }
 
 // add a way to make a new Model
 impl Model {
-    pub fn new(_window: window::Id, ant_texture: wgpu::Texture, num_ants: u32) -> Self {
+    pub fn new(ant_texture: wgpu::Texture, num_ants: u32) -> Self {
         let ants = (0..num_ants)
             .map(|_| Ant::new(ant_texture.clone()))
             .collect();
 
-        Self { _window, ants }
+        Self { ants }
     }
 }
 

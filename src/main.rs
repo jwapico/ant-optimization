@@ -4,8 +4,8 @@ use nannou::prelude::*;
 mod ant;
 mod model;
 
-pub const WINDOW_SIZE: u32 = 1024;
-const NUM_ANTS: u32 = 200;
+const WINDOW_SIZE: u32 = 1024;
+const NUM_ANTS: u32 = 225;
 
 // for types that need to be drawn to the screen
 trait Nannou {
@@ -31,7 +31,7 @@ fn model(app: &App) -> Model {
     let img_path = assets.join("red_ant.png");
     let ant_texture = wgpu::Texture::from_path(app, img_path).unwrap();
 
-    Model::new(_window, ant_texture, NUM_ANTS)
+    Model::new(ant_texture, NUM_ANTS)
 }
 
 // required function for the nannou app; is run 60 times per second

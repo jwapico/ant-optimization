@@ -85,7 +85,7 @@ impl Ant {
         const WANDER_DISTANCE: f32 = 30.0; // distance from ant to wandering circle center
         const WANDER_RADIUS: f32 = 15.0; // radius of wandering circle
         const ANGLE_CHANGE: f32 = PI / 16.0; // max change in wander angle
-        const EDGE_THRESHOLD: f32 = 10.0; // max distance from the edge
+        const EDGE_THRESHOLD: f32 = 20.0; // max distance from the edge
 
         let bounds = Bounds::new(
             -(window_dimensions.x / 2.0),

@@ -18,5 +18,5 @@ cd ant-optimization
 Run:
 
 ```bash
-cargo run
+cargo run --release
 ```

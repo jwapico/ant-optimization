@@ -28,10 +28,14 @@ fn model(app: &App) -> Model {
         .unwrap();
 
     let assets = app.assets_path().unwrap();
+
+    let background_path = assets.join("map.png");
+    let background_texture = wgpu::Texture::from_path(app, background_path).unwrap();
+
     let img_path = assets.join("red_ant.png");
     let ant_texture = wgpu::Texture::from_path(app, img_path).unwrap();
 
-    Model::new(ant_texture, NUM_ANTS)
+    Model::new(background_texture, ant_texture, NUM_ANTS)
 }
 
 // required function for the nannou app; is run 60 times per second
@@ -44,7 +48,12 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
 // required function for the nannou app; draws to the screen
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
-    let background_color = rgb(34.0 / 255.0, 40.0 / 255.0, 49.0 / 255.0);
+
+    let background_color = rgb(155.0 / 255.0, 118.0 / 255.0, 83.0 / 255.0);
+
+    draw.texture(&model.background_texture)
+        .x_y(0.0, 0.0)
+        .w_h(WINDOW_SIZE as f32, WINDOW_SIZE as f32);
 
     frame.clear(background_color);
 

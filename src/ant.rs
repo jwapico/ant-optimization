@@ -29,6 +29,7 @@ impl Bounds {
     }
 }
 
+// TODO: add probes to ants so they take samples of their environment
 // an ant is made up of a position, direction, size, and texture (ant png).
 pub struct Ant {
     size: Vec2,

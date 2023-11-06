@@ -15,18 +15,27 @@ enum MapPixel {
 pub struct Model {
     ants: Vec<Ant>,
     map: HashMap<(i32, i32), MapPixel>,
+    pub background_texture: wgpu::Texture,
 }
 
 // add a way to make a new Model
 impl Model {
-    pub fn new(ant_texture: wgpu::Texture, num_ants: u32) -> Self {
+    pub fn new(
+        background_texture: wgpu::Texture,
+        ant_texture: wgpu::Texture,
+        num_ants: u32,
+    ) -> Self {
         let ants = (0..num_ants)
             .map(|_| Ant::new(ant_texture.clone()))
             .collect();
 
         let map = generate_hashmap("assets/map.png");
 
-        Self { ants, map }
+        Self {
+            ants,
+            map,
+            background_texture,
+        }
     }
 }
 
